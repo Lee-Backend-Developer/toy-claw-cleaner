@@ -29,4 +29,17 @@ class UserServiceTest(
 
     }
 
+    @DisplayName("회원 탈퇴가 되어야한다.")
+    @Test
+    fun `회원 탈퇴가_되어야한다`() {
+        // given
+        val userSignUp : UserSignUp = UserSignUp(loginId = "test", password = "1234", name = "test")
+        val createUser = userService.createUser(userSignUp)
+        // when
+        userService.deleteUser(createUser.id)
+
+        // then
+        assertThat(0L).isEqualTo(userRepository.count())
+    }
+
 }
