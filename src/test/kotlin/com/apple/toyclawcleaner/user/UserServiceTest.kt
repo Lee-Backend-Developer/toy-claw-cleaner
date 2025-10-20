@@ -1,6 +1,8 @@
 package com.apple.toyclawcleaner.user
 
 import com.apple.toyclawcleaner.user.repostiory.UserRepository
+import com.apple.toyclawcleaner.user.request.UserSignIn
+import com.apple.toyclawcleaner.user.request.UserSignUp
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Assertions.*
@@ -27,6 +29,21 @@ class UserServiceTest(
         // then
         assertThat(1L).isEqualTo(userRepository.count())
 
+    }
+
+    @DisplayName("회원이 로그인이 되어야한다")
+    @Test
+    fun `회원이_로그인_되어야한다`() {
+        // given
+        val userSignUp : UserSignUp = UserSignUp(loginId = "test", password = "1234", name = "test")
+        val createUser = userService.createUser(userSignUp)
+
+        val userSignIn = UserSignIn(loginId = "test", password = "1234")
+
+        // when
+        val loginUser = userService.loginUser(userSignIn)
+        // then
+        assertThat(loginUser.loginId).isEqualTo("test")
     }
 
     @DisplayName("회원 탈퇴가 되어야한다.")
