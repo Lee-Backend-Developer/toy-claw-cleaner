@@ -51,5 +51,7 @@ class UserEntity(
     @Column(name = "id", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
     open var id: UUID? = null
 
-)
+){
+    constructor() : this(loginId = "", password = "", name = "")
+}
 
