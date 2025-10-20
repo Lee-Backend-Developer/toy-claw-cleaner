@@ -10,12 +10,16 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(
     private val userRepository: UserRepository
 ) {
-    /*
-    * 사용자가 저장이 되어야한다
+    /**
+    * 회원가입
     * */
     @Transactional
     fun createUser(request: UserSignUp) : UserEntity {
         val userEntity = UserEntity(loginId = request.loginId, password = request.password, name = request.name)
         return userRepository.save(userEntity)
     }
+
+    /**
+     * 회원 탈퇴
+     */
 }
