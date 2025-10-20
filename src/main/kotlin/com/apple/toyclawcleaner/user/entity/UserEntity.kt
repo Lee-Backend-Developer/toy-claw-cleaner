@@ -2,6 +2,7 @@ package com.apple.toyclawcleaner.user.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EntityListeners
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
@@ -14,7 +15,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 class UserEntity(
     /** 회원 로그인 ID (이메일 또는 아이디) */
     @Column(name = "login_id", nullable = false, unique = true, length = 100)
