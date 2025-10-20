@@ -1,18 +1,11 @@
 package com.apple.toyclawcleaner.user.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Id
-import jakarta.persistence.Table
-import org.hibernate.annotations.UuidGenerator
+import jakarta.persistence.*
+import lombok.ToString
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 @Entity
 @Table(name = "users")
@@ -46,12 +39,14 @@ class UserEntity(
 
     /** 고유 UUID (PK) */
     @Id
-    @GeneratedValue
-    @UuidGenerator
-    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "BINARY(16)")
-    open var id: UUID? = null
+    open var id: UUID = UUID.randomUUID()
 
 ){
     constructor() : this(loginId = "", password = "", name = "")
+
+    override fun toString(): String {
+        return "UserEntity(loginId='$loginId', password='$password', name='$name', role=$role, createdAt=$createdAt, updatedAt=$updatedAt, id=$id)"
+    }
+
 }
 
