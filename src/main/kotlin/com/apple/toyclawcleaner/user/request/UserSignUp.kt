@@ -1,5 +1,4 @@
-package com.apple.toyclawcleaner.user
-
+package com.apple.toyclawcleaner.user.request
 
 class UserSignUp (
     var loginId: String,
