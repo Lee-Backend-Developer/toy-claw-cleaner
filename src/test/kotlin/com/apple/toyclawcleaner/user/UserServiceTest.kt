@@ -6,6 +6,7 @@ import com.apple.toyclawcleaner.user.request.UserSignUp
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,6 +19,15 @@ class UserServiceTest(
     @Autowired
     var userService: UserService
 ) {
+
+    @BeforeEach
+    fun setup() {
+        /**
+         * 테스트 코드 실행 할 때 동시에 같은 아이디를 생성할 때 오류가 나서
+         * 테스트 코드 마다 실행 할 때 DB 초기화 진행
+         */
+        userRepository.deleteAll()
+    }
 
     @DisplayName("회원이 저장이 되어야한다.")
     @Test
