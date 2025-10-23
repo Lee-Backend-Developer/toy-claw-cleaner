@@ -1,5 +1,6 @@
 package com.apple.toyclawcleaner.user.entity
 
+import com.apple.toyclawcleaner.common.entity.BaseTimeEntity
 import jakarta.persistence.*
 import lombok.ToString
 import org.springframework.data.annotation.CreatedDate
@@ -27,21 +28,11 @@ class UserEntity(
     @Column(nullable = false, length = 20)
     open var role: UserRole = UserRole.USER,
 
-    /** 생성일시 */
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    open var createdAt: LocalDateTime = LocalDateTime.now(),
-
-    /** 수정일시 */
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    open var updatedAt: LocalDateTime = LocalDateTime.now(),
-
     /** 고유 UUID (PK) */
     @Id
     open var id: UUID = UUID.randomUUID()
 
-){
+) : BaseTimeEntity() {
     constructor() : this(loginId = "", password = "", name = "")
 
     override fun toString(): String {
