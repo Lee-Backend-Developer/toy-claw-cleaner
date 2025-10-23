@@ -13,7 +13,7 @@ class FranchiseService(
 ) {
     // 가맹점 생성
     @Transactional
-    fun createFranchise(franchiseCreate: FranchiseCreate) {
+    fun createFranchise(franchiseCreate: FranchiseCreate) : FranchiseEntity {
         val franchiseEntity : FranchiseEntity = FranchiseEntity(
             id = franchiseCreate.id,
             address_name = franchiseCreate.address_name,
@@ -23,11 +23,21 @@ class FranchiseService(
             y = franchiseCreate.y,
         )
 
-        franchiseRepository.save(franchiseEntity)
+        return franchiseRepository.save(franchiseEntity)
 
     }
 
     // 가맹점 조회
+    fun
+            getFranchise(id: String) : FranchiseEntity? {
+        val franchise = franchiseRepository.findById(id).orElseThrow { throw Exception("존재하지 않는 가맹점입니다.") }
+        return franchise
+    }
 
     // 가맹점 삭제
+    @Transactional
+    fun deleteFranchise(id: String) {
+        val franchise = franchiseRepository.findById(id).orElseThrow { throw Exception("존재하지 않는 가맹점입니다.") }
+        franchiseRepository.delete(franchise)
+    }
 }
