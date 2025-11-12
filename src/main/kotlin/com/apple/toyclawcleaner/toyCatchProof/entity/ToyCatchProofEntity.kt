@@ -19,11 +19,9 @@ class ToyCatchProofEntity(
     var id: UUID = UUID.randomUUID(),
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "user_fk", nullable = false)
     var user : UserEntity,
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "franchise_fk", nullable = false)
     var franchise : FranchiseEntity,
 
     var coin : Int = 0,
