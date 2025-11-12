@@ -1,5 +1,7 @@
 package com.apple.toyclawcleaner.franchise.request
 
+import com.apple.toyclawcleaner.common.Request
+
 data class FranchiseCreate(
     var id: String = "",
     var address_name : String = "",
@@ -7,4 +9,4 @@ data class FranchiseCreate(
     var place_name : String = "",
     var x : Double = 0.0,
     var y : Double = 0.0,
-)
+) : Request()
