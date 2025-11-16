@@ -9,11 +9,13 @@ import com.apple.toyclawcleaner.user.repostiory.UserRepository
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.bean.override.mockito.MockitoBean
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 class ToyCatchProofServiceTest(
@@ -21,17 +23,26 @@ class ToyCatchProofServiceTest(
     val toyCatchProofRepository: ToyCatchProofRepository,
     @Autowired
     val toyCatchProofService: ToyCatchProofService,
-    @MockitoBean
+    @Autowired
     val userRepository: UserRepository,
-    @MockitoBean
+    @Autowired
     val franchiseRepository: FranchiseRepository,
 ) {
 
+    // 각 테스트 실행 전 데이터 설정
+    @BeforeEach
+    fun setup() {
+        createUser()
+        createFranchise()
+    }
+
+
+    // 각 테스트 끝날때 마다 삭제
     @AfterEach
     fun afterEach() {
         toyCatchProofRepository.deleteAll()
-        createUser()
-        createFranchise()
+        userRepository.deleteAll()
+        franchiseRepository.deleteAll()
     }
 
     @DisplayName("DB에 뽑기 기록이 저장이 되어야한다")
@@ -67,7 +78,8 @@ class ToyCatchProofServiceTest(
 
     // 가맹점 가져오기
     fun getFranchise() : FranchiseEntity? {
-        return franchiseRepository.findById("1234").orElseThrow { throw Exception("존재하지 않는 가맹점입니다.") }
+        return franchiseRepository.findAll().first()
+//        return franchiseRepository.findById("1234").orElseThrow { throw Exception("존재하지 않는 가맹점입니다.") }
     }
 
     // 유저 생성
@@ -76,6 +88,7 @@ class ToyCatchProofServiceTest(
         userRepository.save(userEntity)
     }
 
+    // 가맹점 생성
     fun createFranchise() {
         val franchiseEntity = FranchiseEntity(
             id = "1234",
