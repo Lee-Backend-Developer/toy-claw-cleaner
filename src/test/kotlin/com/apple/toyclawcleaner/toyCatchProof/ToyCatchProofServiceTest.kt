@@ -6,16 +6,13 @@ import com.apple.toyclawcleaner.toyCatchProof.entity.ToyCatchProofEntity
 import com.apple.toyclawcleaner.toyCatchProof.request.ToyCatchProofCreate
 import com.apple.toyclawcleaner.user.entity.UserEntity
 import com.apple.toyclawcleaner.user.repostiory.UserRepository
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.bean.override.mockito.MockitoBean
-import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 class ToyCatchProofServiceTest(
@@ -68,7 +65,35 @@ class ToyCatchProofServiceTest(
         toyCatchProofService.createToyCatchProof(toyCatchProofCreate)
 
         // then
-        Assertions.assertThat(toyCatchProofRepository.findAll().size).isEqualTo(1)
+        assertThat(toyCatchProofRepository.findAll().size).isEqualTo(1)
+    }
+
+    @DisplayName("DB에 뽑기 기록이 조회가 되어야한다")
+    @Test
+    fun `DB에_뽑기_기록이_조회가_되어야한다`() {
+        // given
+        // 회원
+        val user : UserEntity? = getUser()
+        // 프렌차이즈
+        val franchise : FranchiseEntity? = getFranchise()
+        // 코인
+        val coin = 1000
+        val toyCatchProof = ToyCatchProofEntity(
+            user = user!!,
+            franchise = franchise!!,
+            coin = coin,
+            toyName = "Toy",
+            count = 1
+        )
+        toyCatchProofRepository.save(toyCatchProof)
+
+        // when
+        val findToyCatchProof = toyCatchProofService.findToyCatchProof(franchise.id)
+
+        // then
+        assertThat(toyCatchProofRepository.findAll().size).isEqualTo(1)
+        assertThat(findToyCatchProof!!.id).isEqualTo(toyCatchProof.id)
+        assertThat(findToyCatchProof.toyName).isEqualTo(toyCatchProof.toyName)
     }
 
     // 유저 가져오기

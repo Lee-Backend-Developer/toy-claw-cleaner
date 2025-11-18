@@ -35,4 +35,11 @@ class ToyCatchProofService(
         toyCatchProofRepository.save(toyCatchProofEntity)
     }
 
+    // DB에 뽑기 조회
+    fun findToyCatchProof(placeKey: String) : ToyCatchProofEntity? {
+        val franchise = franchiseRepository.findById(placeKey).orElseThrow { throw Exception("존재하지 않는 프렌차이즈입니다.") }
+        val toycatchProofEntity : ToyCatchProofEntity = toyCatchProofRepository.findByFranchiseId(franchise.id).orElseThrow { throw Exception("존재하지 않는 뽑기 기록입니다.") }
+        return toycatchProofEntity
+    }
+
 }
